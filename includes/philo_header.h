@@ -3,6 +3,7 @@
 
 # include <unistd.h>
 # include <stdio.h>
+# include <stdint.h>
 # include <stdlib.h>
 # include <pthread.h>
 # define TRUE		1
@@ -27,8 +28,8 @@ typedef enum 	e_message
 typedef struct	s_philo
 {
 	int				id;
-	pthread_t		*left;
-	pthread_t		*right;
+	pthread_mutex_t	*left;
+	pthread_mutex_t	*right;
 }				t_philo;
 
 typedef struct	s_data
@@ -44,13 +45,15 @@ typedef struct	s_data
 
 // NEED TO REMOVE
 void		check_struct(t_data *data);
+void  		check_fork(t_philo **threads, int n);
 
 // src
 int			main(int argc, char **argv);
 void		philo_lunch(t_data *data);
+void		start_lunch(t_data *data, t_philo *threads);
 int			check_data(char **argv, t_data *data);
 void		print_message(t_message *msg, int n);
-void		distribution_of_forks(pthread_t **threads, pthread_mutex_t **mutexes);
+void		distribution_of_forks(t_philo **threads, pthread_mutex_t **mutexes, int count);
 
 // lib
 double		ft_atoi(char *str);

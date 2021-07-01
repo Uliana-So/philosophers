@@ -10,6 +10,18 @@ void    check_struct(t_data *data)
 	printf("must_eat     %d\n\n" RESET, data->must_eat);
 }
 
+void    check_fork(t_philo **philo, int n)
+{
+	int i = 0;
+
+	while (i < n)
+	{
+		printf("%d left -> %p right -> %p\n", i, (*philo)[i].left, (*philo)[i].right);
+		i++;
+	}
+	printf("\n");
+}
+
 int main(int argc, char **argv)
 {
 	t_data	data;
@@ -17,10 +29,13 @@ int main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		if (check_data(argv, &data))
+		{
+			check_struct(&data);
 			philo_lunch(&data);
-		check_struct(&data);
+		}
+		// check_struct(&data);
 	}
 	else
 		print_message(data.msg, ERROR_COUNT);
-	return (0);
+	exit(0);
 }

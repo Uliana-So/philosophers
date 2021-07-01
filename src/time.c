@@ -13,7 +13,7 @@ void	fix_usleep(uint64_t msec)
 {
 	uint64_t	start;
 
-	start = ft_get_time();
-	while (ft_get_time() - start < msec)
+	start = get_time();
+	while (get_time() - start < msec)
 		usleep(500);
 }
