@@ -14,6 +14,7 @@ void	distribution_of_forks(t_philo **philo, pthread_mutex_t **mutexes, int count
 	{
 		if (pthread_mutex_init(&(*mutexes)[i], NULL) != 0)
 			printf("ERROR\n");
+		(*philo)[i].id = i;
 		(*philo)[i].left = &(*mutexes)[i];
 		if (i == count - 1)
 			(*philo)[0].right = (*philo)[i].left;

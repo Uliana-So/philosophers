@@ -16,7 +16,7 @@ void    check_fork(t_philo **philo, int n)
 
 	while (i < n)
 	{
-		printf("%d left -> %p right -> %p\n", i, (*philo)[i].left, (*philo)[i].right);
+	printf("%d left -> %p right -> %p\n", (*philo)[i].id, (*philo)[i].left, (*philo)[i].right);
 		i++;
 	}
 	printf("\n");
