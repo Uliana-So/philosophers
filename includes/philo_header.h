@@ -6,6 +6,7 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <pthread.h>
+# include <sys/time.h>
 # define TRUE		1
 # define FALSE		0
 # define RESET		"\x1b[0m"
@@ -50,7 +51,7 @@ void  		check_fork(t_philo **threads, int n);
 // src
 int			main(int argc, char **argv);
 void		philo_lunch(t_data *data);
-void		start_lunch(t_data *data, t_philo *threads);
+void		start_lunch(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
 void		print_message(t_message *msg, int n);
 void		distribution_of_forks(t_philo **threads, pthread_mutex_t **mutexes, int count);
