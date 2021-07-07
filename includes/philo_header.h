@@ -15,7 +15,8 @@
 
 typedef enum e_message
 {
-	FORK,
+	FORK_LEFT,
+	FORK_RIGHT,
 	EAT,
 	SLEEP,
 	THINK,
@@ -23,6 +24,7 @@ typedef enum e_message
 	ERROR_COUNT,
 	ERROR_MEMORY,
 	ERROR_DATA,
+	ERROR_TIME,
 }				t_message;
 
 typedef struct s_philo
@@ -52,9 +54,9 @@ void		check_fork(t_philo **threads, int n);
 // src
 int			main(int argc, char **argv);
 void		philo_lunch(t_data *data);
-void		start_lunch(t_data *data, t_philo **threads);
+void		create_treads(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
-void		print_message(t_message *msg, int n);
+void		print_message(int n);
 void		distribution_of_forks(t_philo **threads,
 				pthread_mutex_t **mutexes, t_data *data);
 

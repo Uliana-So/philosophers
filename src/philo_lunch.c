@@ -1,23 +1,49 @@
 #include "philo_header.h"
 
-void	*take_forks(void *philo)
+void	print_fork(int id)
 {
-	static int	i = 0;
+	printf("%d ", id + 1);
+	print_message(FORK_LEFT);
+	printf("%d ", id + 1);
+	print_message(FORK_RIGHT);
+}
+
+void	take_forks(t_philo **philo)
+{
+	printf("id %d\n", (*philo)->id);
+	if ((*philo)->id % 2 == 0)
+	{
+		pthread_mutex_lock((*philo)->left);
+		pthread_mutex_lock((*philo)->right);
+		print_fork((*philo)->id);
+	}
+	else
+	{
+		printf("%d ", (*philo)->id + 1);
+		print_message(THINK);
+	}
+}
+
+void	*start_lunch(void *philo)
+{
+	int	i = 0;
 	t_philo		*philo_here;
 	// printf("%p take %d\n\n", philo, i);
 	// i++;
 	philo_here = (t_philo *)philo;
+	printf("id %d %i\n", philo_here->id, i);
 	// printf("here\n");
-	printf("died %d\n", philo_here->data->died_smb);
-	while (philo_here->data->died_smb == FALSE)
+	// printf("died %d\n", philo_here->data->died_smb);
+	// while (philo_here->data->died_smb == FALSE)
+	while (i < 1)
 	{
-		printf("%p take %d\n\n", philo, i);
+		take_forks(&philo_here);
 		i++;
 	}
 
 }
 
-void	start_lunch(t_data *data, t_philo **philo)
+void	create_treads(t_data *data, t_philo **philo)
 {
 	pthread_t	*treads;
 	int			i;
@@ -26,13 +52,13 @@ void	start_lunch(t_data *data, t_philo **philo)
 	// check_fork(philo, data->count_philo);
 	treads = malloc(sizeof(pthread_t) * data->count_philo);
 	if (!treads)
-		print_message(data->msg, ERROR_MEMORY);
+		print_message(ERROR_MEMORY);
 	data->start_time = get_time();
 	// printf("%ld\n", start_time);
 	while (i < data->count_philo)
 	{
 		// printf("here %p %d %d\n", &treads[i], i, data->died_smb);
-		pthread_create(&treads[i], NULL, take_forks, &((*philo)[i]));
+		pthread_create(&treads[i], NULL, start_lunch, &((*philo)[i]));
 		// pthread_detach(treads[i]);
 		usleep(1000);
 		i++;
@@ -72,8 +98,8 @@ void	philo_lunch(t_data *data)
 	{
 		distribution_of_forks(&philo, &mutexes, data);
 		// check_fork(&philo, data->count_philo);
-		start_lunch(data, &philo);
+		create_treads(data, &philo);
 	}
 	else
-		print_message(data->msg, ERROR_MEMORY);
+		print_message(ERROR_MEMORY);
 }

@@ -1,9 +1,11 @@
 #include "philo_header.h"
 
-void	print_message(t_message *msg, int n)
+void	print_message(int n)
 {
-	if (n == FORK)
-		printf("has taken a fork\n");
+	if (n == FORK_LEFT)
+		printf("has taken LEFT fork\n");
+	else if (n == FORK_RIGHT)
+		printf("has taken RIGHT fork\n");
 	else if (n == EAT)
 		printf("is eating\n");
 	else if (n == SLEEP)
@@ -14,8 +16,10 @@ void	print_message(t_message *msg, int n)
 		printf(RED "died\n");
 		// died_smb = TRUE
 	else if (n == ERROR_COUNT)
-		printf(RED "Wrong count arguments\n" RESET);
+		printf(RED "Wrong count arguments\n");
+	else if (n == ERROR_DATA)
+		printf(RED "Wrong argument\n");
 	else
-		printf(RED "Error memory\n" RESET);
+		printf(RED "Error memory\n");
 	printf(RESET);
 }

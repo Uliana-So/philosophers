@@ -36,6 +36,6 @@ int main(int argc, char **argv)
 		// check_struct(&data);
 	}
 	else
-		print_message(data.msg, ERROR_COUNT);
+		print_message(ERROR_COUNT);
 	exit(0);
 }
