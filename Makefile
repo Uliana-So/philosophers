@@ -1,6 +1,6 @@
 CC		=	gcc
 
-CFLAGS	= 	-g #-Werror -Wall -Wextra
+CFLAGS	= 	-g -fsanitize=address #-Werror -Wall -Wextra
 
 HEADER	=	./includes/
 

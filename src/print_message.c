@@ -15,9 +15,7 @@ void	print_message(t_message *msg, int n)
 		// died_smb = TRUE
 	else if (n == ERROR_COUNT)
 		printf(RED "Wrong count arguments\n" RESET);
-	else if (n == ERROR_MEMORY)
-		printf(RED "Error memory\n" RESET);
 	else
-		printf(RED "Wrong data\n" RESET);
+		printf(RED "Error memory\n" RESET);
 	printf(RESET);
 }

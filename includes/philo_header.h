@@ -13,7 +13,7 @@
 # define YELLOW		"\x1b[0;33m"
 # define RED		"\x1b[1;31m"
 
-typedef enum 	e_message
+typedef enum e_message
 {
 	FORK,
 	EAT,
@@ -23,17 +23,17 @@ typedef enum 	e_message
 	ERROR_COUNT,
 	ERROR_MEMORY,
 	ERROR_DATA,
-	ERROR_TIME,
 }				t_message;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int				id;
 	pthread_mutex_t	*left;
 	pthread_mutex_t	*right;
+	struct s_data	*data;
 }				t_philo;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	int				count_philo;
 	int				die;
@@ -41,12 +41,13 @@ typedef struct	s_data
 	int				sleep;
 	int				must_eat;
 	int				died_smb;
+	uint64_t		start_time;
 	enum e_message	*msg;
 }				t_data;
 
 // NEED TO REMOVE
 void		check_struct(t_data *data);
-void  		check_fork(t_philo **threads, int n);
+void		check_fork(t_philo **threads, int n);
 
 // src
 int			main(int argc, char **argv);
@@ -54,7 +55,8 @@ void		philo_lunch(t_data *data);
 void		start_lunch(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
 void		print_message(t_message *msg, int n);
-void		distribution_of_forks(t_philo **threads, pthread_mutex_t **mutexes, int count);
+void		distribution_of_forks(t_philo **threads,
+				pthread_mutex_t **mutexes, t_data *data);
 
 // lib
 double		ft_atoi(char *str);

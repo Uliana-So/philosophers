@@ -13,9 +13,10 @@ int	check_data(char **argv, t_data *data)
 	if (data->count_philo == FALSE || data->count_philo > 200
 		|| data->must_eat == FALSE
 		|| data->die < 60 || data->eat < 60 || data->sleep < 60)
-		{
-			print_message(data->msg, ERROR_DATA);
-			return (FALSE);
-		}
+	{
+		print_message(data->msg, ERROR_DATA);
+		return (FALSE);
+	}
+	data->died_smb = FALSE;
 	return (TRUE);
 }
