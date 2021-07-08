@@ -14,7 +14,7 @@ int	check_data(char **argv, t_data *data)
 		|| data->must_eat == FALSE
 		|| data->die < 60 || data->eat < 60 || data->sleep < 60)
 	{
-		print_message(ERROR_DATA);
+		print_message(ERROR_DATA, 0);
 		return (FALSE);
 	}
 	data->died_smb = FALSE;

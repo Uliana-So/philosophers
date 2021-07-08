@@ -8,6 +8,7 @@ void    check_struct(t_data *data)
 	printf("eat          %d\n", data->eat);
 	printf("sleep        %d\n", data->sleep);
 	printf("must_eat     %d\n\n" RESET, data->must_eat);
+	printf(RESET);
 }
 
 void    check_fork(t_philo **philo, int n)
@@ -36,6 +37,6 @@ int main(int argc, char **argv)
 		// check_struct(&data);
 	}
 	else
-		print_message(ERROR_COUNT);
+		print_message(ERROR_COUNT, 0);
 	exit(0);
 }

@@ -5,7 +5,7 @@ uint64_t	get_time(void)
 	static struct timeval	time;
 
 	if (gettimeofday(&time, NULL))
-		printf(RED "Wrong time\n" RESET);
+		print_message(ERROR_TIME, 0);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 

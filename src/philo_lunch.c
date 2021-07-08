@@ -1,26 +1,19 @@
 #include "philo_header.h"
 
-void	print_fork(int id)
-{
-	printf("%d ", id + 1);
-	print_message(FORK_LEFT);
-	printf("%d ", id + 1);
-	print_message(FORK_RIGHT);
-}
-
 void	take_forks(t_philo **philo)
 {
-	printf("id %d\n", (*philo)->id);
+	// printf("id %d\n", (*philo)->id);
 	if ((*philo)->id % 2 == 0)
 	{
 		pthread_mutex_lock((*philo)->left);
 		pthread_mutex_lock((*philo)->right);
-		print_fork((*philo)->id);
+	// printf("mutex %d %d\n", pthread_mutex_lock((*philo)->left), pthread_mutex_lock((*philo)->right));
+		print_message(FORK_LEFT, (*philo)->id + 1);
+		print_message(FORK_RIGHT, (*philo)->id + 1);
 	}
 	else
 	{
-		printf("%d ", (*philo)->id + 1);
-		print_message(THINK);
+		print_message(THINK, (*philo)->id + 1);
 	}
 }
 
@@ -31,7 +24,7 @@ void	*start_lunch(void *philo)
 	// printf("%p take %d\n\n", philo, i);
 	// i++;
 	philo_here = (t_philo *)philo;
-	printf("id %d %i\n", philo_here->id, i);
+	// printf("id %d %i\n", philo_here->id, i);
 	// printf("here\n");
 	// printf("died %d\n", philo_here->data->died_smb);
 	// while (philo_here->data->died_smb == FALSE)
@@ -52,7 +45,7 @@ void	create_treads(t_data *data, t_philo **philo)
 	// check_fork(philo, data->count_philo);
 	treads = malloc(sizeof(pthread_t) * data->count_philo);
 	if (!treads)
-		print_message(ERROR_MEMORY);
+		print_message(ERROR_MEMORY, 0);
 	data->start_time = get_time();
 	// printf("%ld\n", start_time);
 	while (i < data->count_philo)
@@ -97,9 +90,9 @@ void	philo_lunch(t_data *data)
 	if (philo && mutexes)
 	{
 		distribution_of_forks(&philo, &mutexes, data);
-		// check_fork(&philo, data->count_philo);
+		check_fork(&philo, data->count_philo);
 		create_treads(data, &philo);
 	}
 	else
-		print_message(ERROR_MEMORY);
+		print_message(ERROR_MEMORY, 0);
 }

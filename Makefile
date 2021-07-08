@@ -1,6 +1,6 @@
 CC		=	gcc
 
-CFLAGS	= 	-g -fsanitize=address #-Werror -Wall -Wextra
+CFLAGS	= 	-g #-fsanitize=address #-Werror -Wall -Wextra
 
 HEADER	=	./includes/
 
@@ -9,7 +9,7 @@ NAME	=	philo
 SRC		=	./src/main.c ./src/check_argv.c \
 			./src/print_message.c \
 			./src/philo_lunch.c ./src/time.c \
-			./lib/isdigit.c ./lib/atoi.c
+			./lib/isdigit.c ./lib/atoi.c ./lib/strlen.c
 
 OBJECTS	=	$(SRC:.c=.o)
 

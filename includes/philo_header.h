@@ -24,6 +24,7 @@ typedef enum e_message
 	ERROR_COUNT,
 	ERROR_MEMORY,
 	ERROR_DATA,
+	ERROR_MUTEX,
 	ERROR_TIME,
 }				t_message;
 
@@ -56,7 +57,7 @@ int			main(int argc, char **argv);
 void		philo_lunch(t_data *data);
 void		create_treads(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
-void		print_message(int n);
+void		print_message(int n, int philo);
 void		distribution_of_forks(t_philo **threads,
 				pthread_mutex_t **mutexes, t_data *data);
 
@@ -64,6 +65,7 @@ void		distribution_of_forks(t_philo **threads,
 double		ft_atoi(char *str);
 double		isnumber(char *number);
 int			ft_isdigit(int c);
+int			ft_strlen(char *str);
 
 // time
 uint64_t	get_time(void);
