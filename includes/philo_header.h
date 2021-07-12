@@ -31,8 +31,8 @@ typedef enum e_message
 typedef struct s_philo
 {
 	int				id;
-	pthread_mutex_t	*left;
-	pthread_mutex_t	*right;
+	int				*left;
+	int				*right;
 	struct s_data	*data;
 }				t_philo;
 
@@ -45,7 +45,8 @@ typedef struct s_data
 	int				must_eat;
 	int				died_smb;
 	uint64_t		start_time;
-	enum e_message	*msg;
+	int				*flags;
+	// enum e_message	*msg;
 }				t_data;
 
 // NEED TO REMOVE
@@ -58,8 +59,7 @@ void		philo_lunch(t_data *data);
 void		create_treads(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
 void		print_message(int n, int philo);
-void		distribution_of_forks(t_philo **threads,
-				pthread_mutex_t **mutexes, t_data *data);
+void		distribution_of_forks(t_philo **threads, t_data *data);
 
 // lib
 double		ft_atoi(char *str);

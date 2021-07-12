@@ -3,10 +3,10 @@
 void	take_forks(t_philo **philo)
 {
 	// printf("id %d\n", (*philo)->id);
-	if ((*philo)->id % 2 == 0)
+	if ((*philo)->left == 0 && (*philo)->right == 0)
 	{
-		pthread_mutex_lock((*philo)->left);
-		pthread_mutex_lock((*philo)->right);
+		// pthread_mutex_lock((*philo)->left);
+		// pthread_mutex_lock((*philo)->right);
 	// printf("mutex %d %d\n", pthread_mutex_lock((*philo)->left), pthread_mutex_lock((*philo)->right));
 		print_message(FORK_LEFT, (*philo)->id + 1);
 		print_message(FORK_RIGHT, (*philo)->id + 1);
@@ -60,22 +60,21 @@ void	create_treads(t_data *data, t_philo **philo)
 	return ;
 }
 
-void	distribution_of_forks(t_philo **philo, pthread_mutex_t **mutexes, t_data *data)
+void	distribution_of_forks(t_philo **philo, t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->count_philo)
 	{
-		if (pthread_mutex_init(&(*mutexes)[i], NULL) != 0)
-			printf("ERROR\n");
+		(data->flags)[i] = TRUE;
 		(*philo)[i].data = data;
 		(*philo)[i].id = i;
-		(*philo)[i].left = &(*mutexes)[i];
+		(*philo)[i].left = &((data->flags)[i]);
 		if (i == data->count_philo - 1)
 			(*philo)[0].right = (*philo)[i].left;
 		else
-			(*philo)[i + 1].right = &(*mutexes)[i];
+			(*philo)[i + 1].right = &((data->flags)[i]);
 		i++;
 	}
 }
@@ -83,15 +82,15 @@ void	distribution_of_forks(t_philo **philo, pthread_mutex_t **mutexes, t_data *d
 void	philo_lunch(t_data *data)
 {
 	t_philo			*philo;
-	pthread_mutex_t	*mutexes;
+	int				*mutexes;
 
 	philo = malloc(sizeof(t_philo) * (data->count_philo));
-	mutexes = malloc(sizeof(pthread_mutex_t) * (data->count_philo));
+	data->flags = malloc(sizeof(int) * (data->count_philo));
 	if (philo && mutexes)
 	{
-		distribution_of_forks(&philo, &mutexes, data);
+		distribution_of_forks(&philo, data);
 		check_fork(&philo, data->count_philo);
-		create_treads(data, &philo);
+		// create_treads(data, &philo);
 	}
 	else
 		print_message(ERROR_MEMORY, 0);
