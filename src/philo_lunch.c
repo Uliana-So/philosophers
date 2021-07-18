@@ -3,7 +3,10 @@
 void	take_forks(t_philo **philo)
 {
 	// printf("id %d\n", (*philo)->id);
-	if ((*philo)->left == 0 && (*philo)->right == 0)
+	static pthread_mutex_t	change_fork;
+
+	
+	if (*(*philo)->left == TRUE && *(*philo)->right == TRUE)
 	{
 		// pthread_mutex_lock((*philo)->left);
 		// pthread_mutex_lock((*philo)->right);
@@ -15,6 +18,7 @@ void	take_forks(t_philo **philo)
 	{
 		print_message(THINK, (*philo)->id + 1);
 	}
+
 }
 
 void	*start_lunch(void *philo)
@@ -28,7 +32,7 @@ void	*start_lunch(void *philo)
 	// printf("here\n");
 	// printf("died %d\n", philo_here->data->died_smb);
 	// while (philo_here->data->died_smb == FALSE)
-	while (i < 1)
+	while (i < 4)
 	{
 		take_forks(&philo_here);
 		i++;
@@ -53,7 +57,7 @@ void	create_treads(t_data *data, t_philo **philo)
 		// printf("here %p %d %d\n", &treads[i], i, data->died_smb);
 		pthread_create(&treads[i], NULL, start_lunch, &((*philo)[i]));
 		// pthread_detach(treads[i]);
-		usleep(1000);
+		usleep(500);
 		i++;
 	}
 
@@ -90,7 +94,7 @@ void	philo_lunch(t_data *data)
 	{
 		distribution_of_forks(&philo, data);
 		check_fork(&philo, data->count_philo);
-		// create_treads(data, &philo);
+		create_treads(data, &philo);
 	}
 	else
 		print_message(ERROR_MEMORY, 0);

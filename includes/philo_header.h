@@ -33,6 +33,9 @@ typedef struct s_philo
 	int				id;
 	int				*left;
 	int				*right;
+	uint64_t		start_eat;
+	uint64_t		start_sleep;
+	int				count_eat;
 	struct s_data	*data;
 }				t_philo;
 
@@ -46,7 +49,6 @@ typedef struct s_data
 	int				died_smb;
 	uint64_t		start_time;
 	int				*flags;
-	// enum e_message	*msg;
 }				t_data;
 
 // NEED TO REMOVE
