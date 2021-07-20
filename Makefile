@@ -1,32 +1,44 @@
 CC		=	gcc
 
-CFLAGS	= 	-g #-fsanitize=address #-Werror -Wall -Wextra
+# CFLAGS	= 	-fsanitize=address #-Wall -Wextra -Werror
 
+# -g -fsanitize=address
 HEADER	=	./includes/
+
+OBJDIR	=	obj
+SRCDIR	=	src
 
 NAME	=	philo
 
-SRC		=	./src/main.c ./src/check_argv.c \
-			./src/print_message.c \
-			./src/philo_lunch.c ./src/time.c \
-			./lib/isdigit.c ./lib/atoi.c ./lib/strlen.c
+SRC		=	main.c \
+			time.c \
+			check_argv.c \
+			print_message.c \
+			philo_lunch.c \
+			philo_utils.c
 
-OBJECTS	=	$(SRC:.c=.o)
+SRC		:=	$(addprefix $(SRCDIR)/, $(SRC))
+OBJ		=	$(patsubst $(SRCDIR)/%, $(OBJDIR)/%, $(SRC:.c=.o))
 
-all:        $(NAME) $(HEADER)
+all:        $(NAME)
 
-$(NAME): 	$(OBJECTS)
-			@$(CC) $(CFLAGS) $(OBJECTS) -lpthread -o $(NAME)
+$(NAME):	$(OBJ) $(HEADER)
+			@$(CC) $(CFLAGS) $(OBJ) -lpthread -o $(NAME)
 			@echo ""
 			@echo "\033[33m     ▂▃▅▇█▓▒░ DONE ░▒▓█▇▅▃▂\033[0m"
 			@echo ""
-	
-%.o:		%.c
+
+$(OBJ):		|$(OBJDIR)
+
+$(OBJDIR):
+			@mkdir $(OBJDIR)
+
+$(OBJDIR)/%.o:	$(SRCDIR)/%.c
 			@$(CC) $(CFLAGS) -I $(HEADER) -c $^ -o $@
 			@echo "\033[35m   Compiling...  $<\033[0m"
 
 clean:
-			@rm -f $(OBJECTS)
+			@rm -rf $(OBJDIR)
 			@echo "\033[32m------> CLEAN  completed <------\033[0m"
 
 fclean:		clean

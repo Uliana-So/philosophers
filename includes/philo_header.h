@@ -12,27 +12,24 @@
 # define RESET		"\x1b[0m"
 # define YELLOW		"\x1b[0;33m"
 # define RED		"\x1b[1;31m"
-
-typedef enum e_message
-{
-	FORK_LEFT,
-	FORK_RIGHT,
-	EAT,
-	SLEEP,
-	THINK,
-	DIED,
-	ERROR_COUNT,
-	ERROR_MEMORY,
-	ERROR_DATA,
-	ERROR_MUTEX,
-	ERROR_TIME,
-}				t_message;
+# define FORK_LEFT	"%llu philo %d has taken LEFT fork\n"
+# define FORK_RIGHT	"%llu philo %d has taken RIGHT fork\n"
+# define EAT		"%llu philo %d is eating\n"
+# define SLEEP		"%llu philo %d is sleeping\n"
+# define THINK		"%llu philo %d is thinking\n"
+# define DIED		"%llu philo %d died\n"
+# define ERROR_COUNT	"Wrong count arguments\n"
+# define ERROR_MEMORY	"Error memory\n"
+# define ERROR_DATA		"Wrong argument\n"
+# define ERROR_MUTEX	"Error mutex\n"
+# define ERROR_TIME		"Error time\n"
 
 typedef struct s_philo
 {
 	int				id;
-	int				*left;
-	int				*right;
+	pthread_mutex_t	*left;
+	pthread_mutex_t	*right;
+	pthread_mutex_t	check_die;
 	uint64_t		start_eat;
 	uint64_t		start_sleep;
 	int				count_eat;
@@ -42,35 +39,44 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				count_philo;
-	int				die;
-	int				eat;
-	int				sleep;
+	uint64_t		die;
+	uint64_t		eat;
+	uint64_t		sleep;
 	int				must_eat;
 	int				died_smb;
+	pthread_mutex_t	output;
 	uint64_t		start_time;
-	int				*flags;
 }				t_data;
-
-// NEED TO REMOVE
-void		check_struct(t_data *data);
-void		check_fork(t_philo **threads, int n);
 
 // src
 int			main(int argc, char **argv);
 void		philo_lunch(t_data *data);
 void		create_treads(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
-void		print_message(int n, int philo);
-void		distribution_of_forks(t_philo **threads, t_data *data);
+
+void		distribution_of_forks(t_philo **philo,
+				pthread_mutex_t **mutex, t_data *data);
+void		sleeping(t_philo *philo);
+void		eating(t_philo *philo);
+void		take_forks(t_philo *philo);
+void		thinking(t_philo *philo);
+void		free_pthread(pthread_t **treads, int count);
+void		monitor_philo(pthread_t **treads, t_philo **philo, t_data *data);
 
 // lib
 double		ft_atoi(char *str);
 double		isnumber(char *number);
 int			ft_isdigit(int c);
-int			ft_strlen(char *str);
 
+// message
+void		print_message(int flag, const char *str,
+				t_philo *philo, uint64_t time);
+void		print_error(const char *str);
+// void		print_message_died(int flag, const char *str,
+// 				t_philo *philo, uint64_t time);
 // time
 uint64_t	get_time(void);
 void		fix_usleep(uint64_t msec);
+uint64_t	delta_time(uint64_t start, uint64_t now);
 
 #endif
