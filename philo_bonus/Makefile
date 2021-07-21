@@ -5,7 +5,7 @@ CFLAGS	= 	-Wall -Wextra -Werror
 OBJDIR	=	objs
 SRCDIR	=	src
 
-NAME	=	philo
+NAME	=	philo_bonus
 
 SRC		=	main.c \
 			time.c \
@@ -22,7 +22,7 @@ all:		$(NAME)
 $(NAME):	$(OBJ)
 			@$(CC) $(CFLAGS) $(OBJ) -lpthread -o $(NAME)
 			@echo ""
-			@echo "\033[33m     ▂▃▅▇█▓▒░ DONE ░▒▓█▇▅▃▂\033[0m"
+			@echo "\033[33m     ▂▃▅▇█▓▒░ DONE (BONUS) ░▒▓█▇▅▃▂\033[0m"
 			@echo ""
 
 $(OBJ):		|$(OBJDIR)
