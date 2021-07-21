@@ -73,7 +73,7 @@ void	distribution_of_forks(t_philo **philo, pthread_mutex_t **mutexes,
 	while (i < data->count_philo)
 	{
 		if (pthread_mutex_init(&(*mutexes)[i], NULL) != 0 ||
-			pthread_mutex_init(&(*philo)[i].check_die, NULL) != 0)
+			pthread_mutex_init(&(*philo)[i].block_die, NULL) != 0)
 			print_error(ERROR_MUTEX);
 		(*philo)[i].data = data;
 		(*philo)[i].id = i;

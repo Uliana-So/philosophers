@@ -19,9 +19,9 @@ void	take_forks(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	take_forks(philo);
-	pthread_mutex_lock(&philo->check_die);
+	pthread_mutex_lock(&philo->block_die);
 	philo->start_eat = get_time();
-	pthread_mutex_unlock(&philo->check_die);
+	pthread_mutex_unlock(&philo->block_die);
 	print_message(1, EAT, philo,
 		delta_time(philo->data->start_time, get_time()));
 	fix_usleep(philo->data->eat);

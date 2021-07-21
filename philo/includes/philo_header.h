@@ -28,7 +28,7 @@ typedef struct s_philo
 	int				id;
 	pthread_mutex_t	*left;
 	pthread_mutex_t	*right;
-	pthread_mutex_t	check_die;
+	pthread_mutex_t	block_die;
 	uint64_t		start_eat;
 	uint64_t		start_sleep;
 	int				count_eat;
