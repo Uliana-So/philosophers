@@ -42,7 +42,6 @@ typedef struct s_data
 	uint64_t		eat;
 	uint64_t		sleep;
 	int				must_eat;
-	int				died_smb;
 	pthread_mutex_t	output;
 	uint64_t		start_time;
 }				t_data;

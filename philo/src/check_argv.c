@@ -68,6 +68,5 @@ int	check_data(char **argv, t_data *data)
 		print_error(ERROR_DATA);
 		return (FALSE);
 	}
-	data->died_smb = -1;
 	return (TRUE);
 }
