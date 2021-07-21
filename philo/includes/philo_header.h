@@ -10,14 +10,13 @@
 # define TRUE		1
 # define FALSE		0
 # define RESET		"\x1b[0m"
-# define YELLOW		"\x1b[0;33m"
 # define RED		"\x1b[1;31m"
 # define FORK_LEFT	"%llu philo %d has taken LEFT fork\n"
 # define FORK_RIGHT	"%llu philo %d has taken RIGHT fork\n"
-# define EAT		"%llu philo %d is eating\n"
+# define EAT		"\x1b[0;33m%llu philo %d is eating\n\x1b[0m"
 # define SLEEP		"%llu philo %d is sleeping\n"
 # define THINK		"%llu philo %d is thinking\n"
-# define DIED		"%llu philo %d died\n"
+# define DIED		"\x1b[1;31m%llu philo %d died\n\x1b[0m"
 # define ERROR_COUNT	"Wrong count arguments\n"
 # define ERROR_MEMORY	"Error memory\n"
 # define ERROR_DATA		"Wrong argument\n"
@@ -60,7 +59,7 @@ void		sleeping(t_philo *philo);
 void		eating(t_philo *philo);
 void		take_forks(t_philo *philo);
 void		thinking(t_philo *philo);
-void		free_pthread(pthread_t **treads, int count);
+void		free_pthread(pthread_t **treads, t_data *data, int flag);
 void		monitor_philo(pthread_t **treads, t_philo **philo, t_data *data);
 
 // lib
@@ -72,8 +71,7 @@ int			ft_isdigit(int c);
 void		print_message(int flag, const char *str,
 				t_philo *philo, uint64_t time);
 void		print_error(const char *str);
-// void		print_message_died(int flag, const char *str,
-// 				t_philo *philo, uint64_t time);
+
 // time
 uint64_t	get_time(void);
 void		fix_usleep(uint64_t msec);

@@ -1,11 +1,9 @@
 CC		=	gcc
 
-# CFLAGS	= 	-fsanitize=address #-Wall -Wextra -Werror
+CFLAGS	= 	-Wall -Wextra -Werror
 
-# -g -fsanitize=address
-HEADER	=	./includes/
 
-OBJDIR	=	obj
+OBJDIR	=	objs
 SRCDIR	=	src
 
 NAME	=	philo
@@ -20,9 +18,9 @@ SRC		=	main.c \
 SRC		:=	$(addprefix $(SRCDIR)/, $(SRC))
 OBJ		=	$(patsubst $(SRCDIR)/%, $(OBJDIR)/%, $(SRC:.c=.o))
 
-all:        $(NAME)
+all:		$(NAME)
 
-$(NAME):	$(OBJ) $(HEADER)
+$(NAME):	$(OBJ)
 			@$(CC) $(CFLAGS) $(OBJ) -lpthread -o $(NAME)
 			@echo ""
 			@echo "\033[33m     ▂▃▅▇█▓▒░ DONE ░▒▓█▇▅▃▂\033[0m"
@@ -33,8 +31,8 @@ $(OBJ):		|$(OBJDIR)
 $(OBJDIR):
 			@mkdir $(OBJDIR)
 
-$(OBJDIR)/%.o:	$(SRCDIR)/%.c
-			@$(CC) $(CFLAGS) -I $(HEADER) -c $^ -o $@
+$(OBJDIR)/%.o:	$(SRCDIR)/%.c ./includes/philo_header.h
+			@$(CC) $(CFLAGS) -I ./includes -c $< -o $@
 			@echo "\033[35m   Compiling...  $<\033[0m"
 
 clean:

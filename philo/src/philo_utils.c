@@ -38,12 +38,18 @@ void	sleeping(t_philo *philo)
 	fix_usleep(philo->data->sleep);
 }
 
-void	free_pthread(pthread_t **treads, int i)
-{	
+void	free_pthread(pthread_t **treads, t_data *data, int flag)
+{
+	int	i;
+
+	i = data->count_philo;
+	if (flag)
+		pthread_mutex_lock(&data->output);
 	while (i > 0)
 	{
 		pthread_detach((*treads)[i - 1]);
 		i--;
 	}
 	free(*treads);
+	return ;
 }

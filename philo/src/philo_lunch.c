@@ -20,22 +20,27 @@ void	*start_lunch(void *philo)
 void	monitor_philo(pthread_t **treads, t_philo **philo, t_data *data)
 {
 	int	i;
+	int	flag;
 
 	fix_usleep(data->die / 2);
 	while (TRUE)
 	{
 		i = 0;
+		flag = TRUE;
 		while (i < data->count_philo)
 		{
 			if (delta_time((*philo)[i].start_eat, get_time()) > data->die)
-			{		
+			{
 				print_message(0, DIED, &(*philo)[i],
 					delta_time((*philo)->data->start_time, get_time()));
-				free_pthread(treads, data->count_philo);
-				return ;
+				return (free_pthread(treads, data, FALSE));
 			}
+			if (data->must_eat > 0 && (*philo)[i].count_eat < data->must_eat)
+				flag = FALSE;
 			i++;
 		}
+		if (data->must_eat > 0 && flag == TRUE)
+			return (free_pthread(treads, data, TRUE));
 	}
 }
 
