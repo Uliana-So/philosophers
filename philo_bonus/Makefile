@@ -32,7 +32,7 @@ $(OBJDIR):
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c ./includes/philo_header.h
 			@$(CC) $(CFLAGS) -I ./includes -c $< -o $@
-			@echo "\033[35m   Compiling...  $<\033[0m"
+			@echo "\033[35m      Compiling...  $<\033[0m"
 
 clean:
 			@rm -rf $(OBJDIR)

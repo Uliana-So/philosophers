@@ -5,8 +5,9 @@
 # include <stdio.h>
 # include <stdint.h>
 # include <stdlib.h>
-# include <pthread.h>
+# include <semaphore.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # define TRUE		1
 # define FALSE		0
 # define RESET		"\x1b[0m"
@@ -26,9 +27,6 @@
 typedef struct s_philo
 {
 	int				id;
-	pthread_mutex_t	*left;
-	pthread_mutex_t	*right;
-	pthread_mutex_t	block_die;
 	uint64_t		start_eat;
 	uint64_t		start_sleep;
 	int				count_eat;
@@ -42,22 +40,21 @@ typedef struct s_data
 	uint64_t		eat;
 	uint64_t		sleep;
 	int				must_eat;
-	pthread_mutex_t	output;
+	int				died_smb;
 	uint64_t		start_time;
 }				t_data;
 
 // src
 int			main(int argc, char **argv);
 void		philo_lunch(t_data *data);
-void		create_treads(t_data *data, t_philo **threads);
+// void		create_forks(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
-void		distribution_of_forks(t_philo **philo,
-				pthread_mutex_t **mutex, t_data *data);
+void		create_philos(t_philo **philo, t_data *data);
 void		sleeping(t_philo *philo);
 void		eating(t_philo *philo);
 void		take_forks(t_philo *philo);
 void		thinking(t_philo *philo);
-void		free_pthread(pthread_t **treads, t_data *data, int flag);
+void		free_philo(pthread_t **treads, t_data *data, int flag);
 void		monitor_philo(pthread_t **treads, t_philo **philo, t_data *data);
 
 // lib
