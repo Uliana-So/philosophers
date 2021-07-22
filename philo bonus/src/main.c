@@ -11,5 +11,5 @@ int	main(int argc, char **argv)
 	}
 	else
 		print_error(ERROR_COUNT);
-	exit(0);
+	return (0);
 }

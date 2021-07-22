@@ -33,65 +33,71 @@ void	monitor_philo(pthread_t **treads, t_philo **philo, t_data *data)
 			{
 				print_message(0, DIED, &(*philo)[i],
 					delta_time((*philo)->data->start_time, get_time()));
-				return (free_philo(treads, data, FALSE));
+				return (free_pthread(treads, data, FALSE));
 			}
 			if (data->must_eat > 0 && (*philo)[i].count_eat < data->must_eat)
 				flag = FALSE;
 			i++;
 		}
 		if (data->must_eat > 0 && flag == TRUE)
-			return (free_philo(treads, data, TRUE));
+			return (free_pthread(treads, data, TRUE));
 	}
 }
 
-// void	create_forks(t_data *data, t_philo **philo)
-// {
+void	create_treads(t_data *data, t_philo **philo)
+{
+	pthread_t	*treads;
+	int			i;
+	int			count;
 
-// 	int			i;
-// 	int			count;
+	i = 0;
+	count = data->count_philo;
+	treads = malloc(sizeof(pthread_t) * count);
+	if (!treads)
+		print_error(ERROR_MEMORY);
+	data->start_time = get_time();
+	while (i < count)
+	{
+		pthread_create(&treads[i], NULL, start_lunch, &((*philo)[i]));
+		i++;
+	}
+	monitor_philo(&treads, philo, data);
+}
 
-// 	i = 0;
-// 	count = data->count_philo;
-
-// 	if (!treads)
-// 		print_error(ERROR_MEMORY);
-// 	data->start_time = get_time();
-// 	while (i < count)
-// 	{
-// 		pthread_create(&treads[i], NULL, start_lunch, &((*philo)[i]));
-// 		i++;
-// 	}
-// 	monitor_philo(&treads, philo, data);
-// }
-
-void	create_philos(t_philo **philo, t_data *data)
+void	distribution_of_forks(t_philo **philo, pthread_mutex_t **mutexes,
+							 t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->count_philo)
 	{
+		if (pthread_mutex_init(&(*mutexes)[i], NULL) != 0 ||
+			pthread_mutex_init(&(*philo)[i].block_die, NULL) != 0)
+			print_error(ERROR_MUTEX);
 		(*philo)[i].data = data;
 		(*philo)[i].id = i;
 		(*philo)[i].count_eat = 0;
+		(*philo)[i].left = &(*mutexes)[i];
+		if (i == data->count_philo - 1)
+			(*philo)[0].right = (*philo)[i].left;
+		else
+			(*philo)[i + 1].right = &(*mutexes)[i];
 		i++;
 	}
 }
 
 void	philo_lunch(t_data *data)
 {
-	t_philo	*philo;
-	sem_t	*sem_id;
-	sem_t	*semaphores;
+	t_philo			*philo;
+	pthread_mutex_t	*mutexes;
 
 	philo = malloc(sizeof(t_philo) * (data->count_philo));
-	// sem_id = sem_open;
-	// semaphores = malloc(sizeof(pthread_mutex_t) * (data->count_philo));
-	sem_id = sem_open(semaphores , data->count_philo);
-	if (philo)
+	mutexes = malloc(sizeof(pthread_mutex_t) * (data->count_philo));
+	if (philo && mutexes)
 	{
-		create_philos(&philo, data);
-		start_lunch_ph(data, &philo);
+		distribution_of_forks(&philo, &mutexes, data);
+		create_treads(data, &philo);
 	}
 	else
 		print_error(ERROR_MEMORY);
