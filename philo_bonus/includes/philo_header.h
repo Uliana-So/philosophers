@@ -48,9 +48,9 @@ typedef struct s_data
 // src
 int			main(int argc, char **argv);
 void		philo_lunch(t_data *data);
-void		create_treads(t_data *data, t_philo **threads);
+void		create_forks(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
-void		distribution_of_forks(t_philo **philo,
+void		create_forks(t_philo **philo,
 				pthread_mutex_t **mutex, t_data *data);
 void		sleeping(t_philo *philo);
 void		eating(t_philo *philo);
