@@ -37,10 +37,8 @@ int	ft_isdigit(int c)
 double	isnumber(char *number)
 {
 	int	i;
-	int	res;
 
 	i = 0;
-	res = -1;
 	while (number[i] != '\0')
 	{
 		if (!ft_isdigit(number[i]))
