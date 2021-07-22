@@ -21,7 +21,9 @@ void	take_forks(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	take_forks(philo);
+	// sem_wait(philo->data->sem_lock);
 	philo->start_eat = get_time();
+	sem_post(philo->data->sem_lock);
 	print_message(1, EAT, philo,
 		delta_time(philo->data->start_time, get_time()));
 	fix_usleep(philo->data->eat);
