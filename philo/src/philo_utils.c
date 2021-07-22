@@ -32,7 +32,6 @@ void	eating(t_philo *philo)
 
 void	sleeping(t_philo *philo)
 {
-	philo->start_sleep = get_time();
 	print_message(1, SLEEP, philo,
 		delta_time(philo->data->start_time, get_time()));
 	fix_usleep(philo->data->sleep);

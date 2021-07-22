@@ -30,7 +30,6 @@ typedef struct s_philo
 	pthread_mutex_t	*right;
 	pthread_mutex_t	block_die;
 	uint64_t		start_eat;
-	uint64_t		start_sleep;
 	int				count_eat;
 	struct s_data	*data;
 }				t_philo;
