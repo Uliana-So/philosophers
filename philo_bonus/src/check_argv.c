@@ -62,8 +62,7 @@ int	check_data(char **argv, t_data *data)
 		data->must_eat = -1;
 	if (data->count_philo == FALSE || data->count_philo > 200
 		|| data->must_eat == FALSE
-		|| data->die < 60 || data->eat < 60 || data->sleep < 60
-		|| pthread_mutex_init(&data->output, NULL) != 0)
+		|| data->die < 60 || data->eat < 60 || data->sleep < 60)
 	{
 		print_error(ERROR_DATA);
 		return (FALSE);

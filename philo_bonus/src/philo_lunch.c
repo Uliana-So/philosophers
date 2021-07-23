@@ -1,5 +1,22 @@
 #include "philo_header.h"
 
+void	*monitor_philo(void *philo)
+{
+	fix_usleep(((t_philo *)philo)->data->die / 2);
+	while (TRUE)
+	{
+		if (delta_time(((t_philo *)philo)->start_eat, get_time()) > ((t_philo *)philo)->data->die)
+		{
+			print_message(0, DIED, (t_philo *)philo,
+				delta_time(((t_philo *)philo)->data->start_time, get_time()));
+			((t_philo *)philo)->alive = FALSE;
+			exit (2);
+		}
+		if (((t_philo *)philo)->data->must_eat > 0 && ((t_philo *)philo)->count_eat < ((t_philo *)philo)->data->must_eat)
+			exit (3);
+	}
+}
+
 void	*start_lunch(t_philo *philo)
 {
 	pthread_t	monitor;
@@ -9,7 +26,7 @@ void	*start_lunch(t_philo *philo)
 	thinking(philo);
 	if (philo->id % 2 == 0)
 		fix_usleep(philo->data->eat / 2);
-	while (TRUE)
+	while (philo->alive)
 	{
 		eating(philo);
 		sleeping(philo);
@@ -17,37 +34,11 @@ void	*start_lunch(t_philo *philo)
 	}
 }
 
-void	*monitor_philo(void *philo)
-{
-	int	i;
-	int	flag;
-
-	fix_usleep(((t_philo *)philo)->data->die / 2);
-	while (TRUE)
-	{
-		// i = 0;
-		flag = TRUE;
-		// while (i < ((t_philo *)philo)->data->count_philo)
-		// {
-			if (delta_time(((t_philo *)philo)[i].start_eat, get_time()) > ((t_philo *)philo)->data->die)
-			{
-				print_message(0, DIED, &((t_philo *)philo)[i],
-					delta_time(((t_philo *)philo)->data->start_time, get_time()));
-				// return (free_pthread(treads, data, FALSE));
-			}
-			if (((t_philo *)philo)->data->must_eat > 0 && ((t_philo *)philo)[i].count_eat < ((t_philo *)philo)->data->must_eat)
-				flag = FALSE;
-			i++;
-		// }
-		if (((t_philo *)philo)->data->must_eat > 0 && flag == TRUE)
-			// return (free_pthread(treads, data, TRUE));
-	}
-}
-
 void	create_forks(t_data *data, t_philo **philo)
 {
 	int			i;
 	int			count;
+	int			res_code;
 
 	i = 0;
 	count = data->count_philo;
@@ -59,7 +50,17 @@ void	create_forks(t_data *data, t_philo **philo)
 			start_lunch(&((*philo)[i]));
 		i++;
 	}
-
+	i = 0;
+	while (i < count)
+	{
+		waitpid(-1, &res_code, 0);
+		if (WEXITSTATUS(res_code) == 2)
+		{
+			close_pid(philo);
+			return ;
+		}
+		i++;
+	}
 }
 
 void	create_philos(t_philo **philo, t_data *data)
@@ -72,6 +73,7 @@ void	create_philos(t_philo **philo, t_data *data)
 		(*philo)[i].data = data;
 		(*philo)[i].id = i;
 		(*philo)[i].count_eat = 0;
+		(*philo)[i].alive = TRUE;
 		i++;
 	}
 }
@@ -93,8 +95,9 @@ void	philo_lunch(t_data *data)
 	else  if (philo)
 	{
 		create_philos(&philo, data);
-		create_philos(data, &philo);
+		create_forks(data, &philo);
 	}
 	else
 		print_error(ERROR_MEMORY);
+	free(philo);
 }

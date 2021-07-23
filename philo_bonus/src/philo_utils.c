@@ -8,8 +8,9 @@ void	thinking(t_philo *philo)
 
 void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->left);
-	pthread_mutex_lock(philo->right);
+	sem_wait(philo->data->sem_lock);
+	sem_wait(philo->data->sem_forks);
+	sem_wait(philo->data->sem_forks);
 	print_message(1, FORK_LEFT, philo,
 		delta_time(philo->data->start_time, get_time()));
 	print_message(1, FORK_RIGHT, philo,
@@ -19,15 +20,14 @@ void	take_forks(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	take_forks(philo);
-	pthread_mutex_lock(&philo->block_die);
 	philo->start_eat = get_time();
-	pthread_mutex_unlock(&philo->block_die);
+	sem_wait(philo->data->sem_lock);
 	print_message(1, EAT, philo,
 		delta_time(philo->data->start_time, get_time()));
 	fix_usleep(philo->data->eat);
 	philo->count_eat += 1;
-	pthread_mutex_unlock(philo->right);
-	pthread_mutex_unlock(philo->left);
+	sem_post(philo->data->sem_forks);
+	sem_post(philo->data->sem_forks);
 }
 
 void	sleeping(t_philo *philo)
@@ -37,18 +37,7 @@ void	sleeping(t_philo *philo)
 	fix_usleep(philo->data->sleep);
 }
 
-void	free_pthread(pthread_t **treads, t_data *data, int flag)
+void	close_pid(t_philo *philo, )
 {
-	int	i;
-
-	i = data->count_philo;
-	if (flag)
-		pthread_mutex_lock(&data->output);
-	while (i > 0)
-	{
-		pthread_detach((*treads)[i - 1]);
-		i--;
-	}
-	free(*treads);
-	return ;
+	while ()
 }
