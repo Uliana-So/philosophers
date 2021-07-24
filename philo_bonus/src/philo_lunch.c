@@ -2,21 +2,24 @@
 
 void	*monitor_philo(void *philo)
 {
-	fix_usleep(((t_philo *)philo)->data->die / 2);
 	while (TRUE)
 	{
 		if (delta_time(((t_philo *)philo)->start_eat, get_time())
-			> ((t_philo *)philo)->data->die)
+			>= ((t_philo *)philo)->data->die)
 		{
 			print_message(0, DIED, (t_philo *)philo,
 				delta_time(((t_philo *)philo)->data->start_time, get_time()));
-			((t_philo *)philo)->alive = FALSE;
 			exit (2);
 		}
 		if (((t_philo *)philo)->data->must_eat > 0
 			&& ((t_philo *)philo)->count_eat
 			>= ((t_philo *)philo)->data->must_eat)
+		{
+			sem_post(((t_philo *)philo)->data->sem_forks);
+			sem_post(((t_philo *)philo)->data->sem_forks);
 			exit (3);
+		}
+		usleep(50);
 	}
 }
 
@@ -24,18 +27,17 @@ void	*start_lunch(t_philo *philo)
 {
 	pthread_t	monitor;
 
-	philo->start_eat = philo->data->start_time;
+	philo->start_eat = get_time();
 	pthread_create(&monitor, NULL, monitor_philo, philo);
 	thinking(philo);
 	if (philo->id % 2 != 0)
 		fix_usleep(philo->data->eat / 2);
-	while (philo->alive)
+	while (TRUE)
 	{
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
 	}
-	exit (2);
 }
 
 void	create_forks(t_data *data, t_philo **philo)
@@ -100,5 +102,8 @@ void	philo_lunch(t_data *data)
 	}
 	else
 		print_error(ERROR_MEMORY);
+	sem_unlink("forks");
+	sem_unlink("write");
+	sem_unlink("lock");
 	free(philo);
 }

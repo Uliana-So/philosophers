@@ -20,5 +20,5 @@ void	fix_usleep(uint64_t msec)
 
 	start = get_time();
 	while (get_time() - start < msec)
-		usleep(500);
+		usleep(50);
 }

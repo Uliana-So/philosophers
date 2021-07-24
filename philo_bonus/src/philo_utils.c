@@ -8,6 +8,7 @@ void	thinking(t_philo *philo)
 
 void	take_forks(t_philo *philo)
 {
+	sem_wait(philo->data->sem_lock);
 	sem_wait(philo->data->sem_forks);
 	print_message(1, FORK_LEFT, philo,
 		delta_time(philo->data->start_time, get_time()));
@@ -19,7 +20,6 @@ void	take_forks(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	take_forks(philo);
-	sem_wait(philo->data->sem_lock);
 	philo->start_eat = get_time();
 	sem_post(philo->data->sem_lock);
 	print_message(1, EAT, philo,
