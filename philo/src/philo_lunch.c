@@ -29,7 +29,7 @@ void	monitor_philo(pthread_t **treads, t_philo **philo, t_data *data)
 		flag = TRUE;
 		while (i < data->count_philo)
 		{
-			if (delta_time((*philo)[i].start_eat, get_time()) > data->die)
+			if (delta_time((*philo)[i].start_eat, get_time()) >= data->die)
 			{
 				print_message(0, DIED, &(*philo)[i],
 					delta_time((*philo)->data->start_time, get_time()));
