@@ -32,7 +32,6 @@ typedef struct s_philo
 	pid_t			pid;
 	uint64_t		start_eat;
 	int				count_eat;
-	int				alive;
 	struct s_data	*data;
 }				t_philo;
 

@@ -76,7 +76,6 @@ void	create_philos(t_philo **philo, t_data *data)
 		(*philo)[i].data = data;
 		(*philo)[i].id = i;
 		(*philo)[i].count_eat = 0;
-		(*philo)[i].alive = TRUE;
 		i++;
 	}
 }
