@@ -7,7 +7,7 @@ void	*start_lunch(void *philo)
 	philo_here = (t_philo *)philo;
 	philo_here->start_eat = philo_here->data->start_time;
 	thinking(philo_here);
-	if (philo_here->id % 2 == 0)
+	if (philo_here->id % 2 != 0)
 		fix_usleep(philo_here->data->eat / 2);
 	while (TRUE)
 	{

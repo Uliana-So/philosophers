@@ -9,9 +9,9 @@ void	thinking(t_philo *philo)
 void	take_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left);
-	pthread_mutex_lock(philo->right);
 	print_message(1, FORK_LEFT, philo,
 		delta_time(philo->data->start_time, get_time()));
+	pthread_mutex_lock(philo->right);
 	print_message(1, FORK_RIGHT, philo,
 		delta_time(philo->data->start_time, get_time()));
 }

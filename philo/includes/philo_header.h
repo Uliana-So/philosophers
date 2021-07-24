@@ -13,10 +13,10 @@
 # define RED		"\x1b[1;31m"
 # define FORK_LEFT	"%llu philo %d has taken LEFT fork\n"
 # define FORK_RIGHT	"%llu philo %d has taken RIGHT fork\n"
-# define EAT		"\x1b[0;33m%llu philo %d is eating\n\x1b[0m"
+# define EAT		"\x1b[0;33m%llu philo %d is eating\x1b[0m\n"
 # define SLEEP		"%llu philo %d is sleeping\n"
 # define THINK		"%llu philo %d is thinking\n"
-# define DIED		"\x1b[1;31m%llu philo %d died\n\x1b[0m"
+# define DIED		"\x1b[1;31m%llu philo %d died\x1b[0m\n"
 # define ERROR_COUNT	"Wrong count arguments\n"
 # define ERROR_MEMORY	"Error memory\n"
 # define ERROR_DATA		"Wrong argument\n"
@@ -47,15 +47,16 @@ typedef struct s_data
 
 // src
 int			main(int argc, char **argv);
-void		philo_lunch(t_data *data);
 void		create_treads(t_data *data, t_philo **threads);
 int			check_data(char **argv, t_data *data);
+void		philo_lunch(t_data *data);
 void		distribution_of_forks(t_philo **philo,
 				pthread_mutex_t **mutex, t_data *data);
-void		sleeping(t_philo *philo);
+void		*start_lunch(void *philo);
+void		thinking(t_philo *philo);
 void		eating(t_philo *philo);
 void		take_forks(t_philo *philo);
-void		thinking(t_philo *philo);
+void		sleeping(t_philo *philo);
 void		free_pthread(pthread_t **treads, t_data *data, int flag);
 void		monitor_philo(pthread_t **treads, t_philo **philo, t_data *data);
 
