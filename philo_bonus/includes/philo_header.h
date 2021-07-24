@@ -8,6 +8,7 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <signal.h>
 # define TRUE		1
 # define FALSE		0
 # define RESET		"\x1b[0m"
@@ -29,9 +30,6 @@ typedef struct s_philo
 {
 	int				id;
 	pid_t			pid;
-	pthread_mutex_t	*left;
-	pthread_mutex_t	*right;
-	pthread_mutex_t	block_die;
 	uint64_t		start_eat;
 	int				count_eat;
 	int				alive;
@@ -61,6 +59,7 @@ void		eating(t_philo *philo);
 void		take_forks(t_philo *philo);
 void		thinking(t_philo *philo);
 void		*monitor_philo(void *philo);
+void		kill_pid(t_philo *philo, int count);
 
 // lib
 double		ft_atoi(char *str);

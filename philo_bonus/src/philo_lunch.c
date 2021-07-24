@@ -5,14 +5,17 @@ void	*monitor_philo(void *philo)
 	fix_usleep(((t_philo *)philo)->data->die / 2);
 	while (TRUE)
 	{
-		if (delta_time(((t_philo *)philo)->start_eat, get_time()) > ((t_philo *)philo)->data->die)
+		if (delta_time(((t_philo *)philo)->start_eat, get_time())
+			> ((t_philo *)philo)->data->die)
 		{
 			print_message(0, DIED, (t_philo *)philo,
 				delta_time(((t_philo *)philo)->data->start_time, get_time()));
 			((t_philo *)philo)->alive = FALSE;
 			exit (2);
 		}
-		if (((t_philo *)philo)->data->must_eat > 0 && ((t_philo *)philo)->count_eat < ((t_philo *)philo)->data->must_eat)
+		if (((t_philo *)philo)->data->must_eat > 0
+			&& ((t_philo *)philo)->count_eat
+			>= ((t_philo *)philo)->data->must_eat)
 			exit (3);
 	}
 }
@@ -24,7 +27,7 @@ void	*start_lunch(t_philo *philo)
 	philo->start_eat = philo->data->start_time;
 	pthread_create(&monitor, NULL, monitor_philo, philo);
 	thinking(philo);
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 		fix_usleep(philo->data->eat / 2);
 	while (philo->alive)
 	{
@@ -32,6 +35,7 @@ void	*start_lunch(t_philo *philo)
 		sleeping(philo);
 		thinking(philo);
 	}
+	exit (2);
 }
 
 void	create_forks(t_data *data, t_philo **philo)
@@ -55,10 +59,7 @@ void	create_forks(t_data *data, t_philo **philo)
 	{
 		waitpid(-1, &res_code, 0);
 		if (WEXITSTATUS(res_code) == 2)
-		{
-			close_pid(philo);
-			return ;
-		}
+			return (kill_pid(*philo, count));
 		i++;
 	}
 }
@@ -89,10 +90,10 @@ void	philo_lunch(t_data *data)
 	data->sem_forks = sem_open("forks", O_CREAT, 0644, data->count_philo);
 	data->sem_write = sem_open("write", O_CREAT, 0644, 1);
 	data->sem_lock = sem_open("lock", O_CREAT, 0644, 1);
-	if (data->sem_forks == SEM_FAILED || data->sem_write == SEM_FAILED ||
-		data->sem_lock ==SEM_FAILED)
+	if (data->sem_forks == SEM_FAILED || data->sem_write == SEM_FAILED
+		|| data->sem_lock == SEM_FAILED)
 		print_error(ERROR_SEM);
-	else  if (philo)
+	else if (philo)
 	{
 		create_philos(&philo, data);
 		create_forks(data, &philo);
