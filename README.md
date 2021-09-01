@@ -14,4 +14,4 @@ Program arguments:
 ## Compiling
 > ` make `
 ## Start project
-> ` philo 4 410 200 100 3`
+> ` ./philo 4 410 200 100 3`
