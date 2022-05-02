@@ -43,7 +43,7 @@ typedef struct s_data
 	int			must_eat;
 	pthread_mutex_t		output;
 	uint64_t		start_time;
-}				t_data;
+}		t_data;
 
 // src
 int		main(int argc, char **argv);
