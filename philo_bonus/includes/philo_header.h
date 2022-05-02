@@ -21,38 +21,38 @@
 # define DIED		"\x1b[1;31m%llu philo %d died\x1b[0m\n"
 # define ERROR_COUNT	"Wrong count arguments\n"
 # define ERROR_MEMORY	"Error memory\n"
-# define ERROR_DATA		"Wrong argument\n"
+# define ERROR_DATA	"Wrong argument\n"
 # define ERROR_MUTEX	"Error mutex\n"
-# define ERROR_TIME		"Error time\n"
-# define ERROR_SEM		"Error semaphore\n"
+# define ERROR_TIME	"Error time\n"
+# define ERROR_SEM	"Error semaphore\n"
 
 typedef struct s_philo
 {
-	int				id;
+	int			id;
 	pid_t			pid;
 	uint64_t		start_eat;
-	int				count_eat;
-	struct s_data	*data;
-}				t_philo;
+	int			count_eat;
+	struct s_data		*data;
+}		t_philo;
 
 typedef struct s_data
 {
-	int				count_philo;
+	int			count_philo;
 	uint64_t		die;
 	uint64_t		eat;
 	uint64_t		sleep;
-	int				must_eat;
+	int			must_eat;
 	uint64_t		start_time;
 	sem_t			*sem_forks;
 	sem_t			*sem_write;
 	sem_t			*sem_lock;
-}				t_data;
+}		t_data;
 
 // src
-int			main(int argc, char **argv);
+int		main(int argc, char **argv);
 void		philo_lunch(t_data *data);
 void		create_forks(t_data *data, t_philo **threads);
-int			check_data(char **argv, t_data *data);
+int		check_data(char **argv, t_data *data);
 void		sleeping(t_philo *philo);
 void		eating(t_philo *philo);
 void		take_forks(t_philo *philo);
@@ -63,7 +63,7 @@ void		kill_pid(t_philo *philo, int count);
 // lib
 double		ft_atoi(char *str);
 double		isnumber(char *number);
-int			ft_isdigit(int c);
+int		ft_isdigit(int c);
 
 // message
 void		print_message(int flag, const char *str,
