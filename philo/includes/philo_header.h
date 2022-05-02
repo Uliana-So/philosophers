@@ -19,36 +19,36 @@
 # define DIED		"\x1b[1;31m%llu philo %d died\x1b[0m\n"
 # define ERROR_COUNT	"Wrong count arguments\n"
 # define ERROR_MEMORY	"Error memory\n"
-# define ERROR_DATA		"Wrong argument\n"
+# define ERROR_DATA	"Wrong argument\n"
 # define ERROR_MUTEX	"Error mutex\n"
-# define ERROR_TIME		"Error time\n"
+# define ERROR_TIME	"Error time\n"
 
 typedef struct s_philo
 {
-	int				id;
+	int		id;
 	pthread_mutex_t	*left;
 	pthread_mutex_t	*right;
 	pthread_mutex_t	block_die;
-	uint64_t		start_eat;
-	int				count_eat;
+	uint64_t	start_eat;
+	int		count_eat;
 	struct s_data	*data;
-}				t_philo;
+}		t_philo;
 
 typedef struct s_data
 {
-	int				count_philo;
+	int			count_philo;
 	uint64_t		die;
 	uint64_t		eat;
 	uint64_t		sleep;
-	int				must_eat;
-	pthread_mutex_t	output;
+	int			must_eat;
+	pthread_mutex_t		output;
 	uint64_t		start_time;
 }				t_data;
 
 // src
-int			main(int argc, char **argv);
+int		main(int argc, char **argv);
 void		create_treads(t_data *data, t_philo **threads);
-int			check_data(char **argv, t_data *data);
+int		check_data(char **argv, t_data *data);
 void		philo_lunch(t_data *data);
 void		distribution_of_forks(t_philo **philo,
 				pthread_mutex_t **mutex, t_data *data);
