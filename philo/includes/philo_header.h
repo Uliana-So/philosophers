@@ -25,13 +25,13 @@
 
 typedef struct s_philo
 {
-	int		id;
-	pthread_mutex_t	*left;
-	pthread_mutex_t	*right;
-	pthread_mutex_t	block_die;
-	uint64_t	start_eat;
-	int		count_eat;
-	struct s_data	*data;
+	int			id;
+	pthread_mutex_t		*left;
+	pthread_mutex_t		*right;
+	pthread_mutex_t		block_die;
+	uint64_t		start_eat;
+	int			count_eat;
+	struct s_data		*data;
 }		t_philo;
 
 typedef struct s_data
